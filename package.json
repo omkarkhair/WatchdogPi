@@ -1,0 +1,27 @@
+{
+  "name": "WatchdogPi",
+  "version": "1.0.0",
+  "description": "A Door Watchdog project on Raspberry Pi",
+  "main": "index.js",
+  "dependencies": {
+    "pi-gpio": "0.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omkarkhair/Watchdog.git"
+  },
+  "keywords": [
+    "raspberrypi",
+    "watchdog"
+  ],
+  "author": "Omkar Khair",
+  "license": "MIT License",
+  "bugs": {
+    "url": "https://github.com/omkarkhair/Watchdog/issues"
+  },
+  "homepage": "https://github.com/omkarkhair/Watchdog"
+}
