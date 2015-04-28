@@ -4,6 +4,7 @@
   "description": "A Door Watchdog project on Raspberry Pi",
   "main": "index.js",
   "dependencies": {
+    "mandrill-api": "^1.0.45",
     "pi-gpio": "0.0.7"
   },
   "devDependencies": {},
