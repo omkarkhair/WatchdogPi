@@ -24,14 +24,17 @@ var Status = {
                     console.log("ALERT!!!");
                 }
             }
-            else if (this.alertSent){
+            else if (this.alertSent && this.status != checkState){
                 console.log("Reseting alert");
                 this.alertSent = false;
             }
-            
+
+            // check if pin state is changing
+            if ( this.status != value ) {
+                this.updated = new Date();
+            }
             // Set the state
             this.status = value;
-            this.updated = new Date();
 
             
         });
