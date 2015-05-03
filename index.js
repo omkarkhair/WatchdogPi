@@ -13,7 +13,14 @@ var Status = {
     updated : new Date(),
     alertSent: false,
     update : function () {
-        gpio.read(pin, function(value){
+        gpio.read(pin, function(err, value){
+            
+            if (err)
+            {
+                console.log("Error reading pin:", err);
+                return;
+            }
+            
             console.log("Polling value:", value);
             // check if state is open
             if ( this.status == checkState && value == checkState && !this.alertSent ) {
