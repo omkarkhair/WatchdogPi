@@ -1,7 +1,7 @@
 var gpio = require("pi-gpio");
 
 // Values we plan to move to config in coming versions
-var pin = 16;
+var pin = 29; // Set a GPIO Pin
 var checkState = 0; // The state for you which you need a notifications. You can either be notified if the pin is open for too long, or closed.
 var maxTimeout = 30000; // maximum time for which the state can remain locked in milliseconds.
 var pollTime = 3000; // How often should we check the state, in milliseconds.
@@ -48,14 +48,19 @@ var Status = {
     }
 }
 
-// Start doing stuff
-gpio.setDirection(pin, "input", function (err) {
+// Open the pin as INPUT and PULL-UP
+
+gpio.close(pin, function(){
+
+	gpio.open(pin, "input pullup", function (err) {
     
-    if (err)
-        throw (err);
+    		if (err)
+        		throw (err);
     
-    console.log("Pin direction set. Starting polling at:", pollTime);
-    // Pin set as input -- start polling
-    timer = setInterval(Status.update, pollTime);
+	    	console.log("Pin direction set. Starting polling at:", pollTime);
+    		// Pin set as input -- start polling
+    		timer = setInterval(Status.update, pollTime);
     
+	});
+
 });
