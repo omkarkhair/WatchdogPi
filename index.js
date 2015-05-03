@@ -14,7 +14,7 @@ var Status = {
     alertSent: false,
     update : function () {
         gpio.read(pin, function(value){
-        
+            console.log("Polling value:", value);
             // check if state is open
             if ( this.status == checkState && value == checkState && !this.alertSent ) {
                 // check if this has been for too long.
@@ -47,6 +47,7 @@ gpio.setDirection(pin, "input", function (err) {
     if (err)
         throw (err);
     
+    console.log("Pin direction set. Starting polling at:", pollTime);
     // Pin set as input -- start polling
     timer = setInterval(Status.update, pollTime);
     
