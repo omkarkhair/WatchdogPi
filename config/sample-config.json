@@ -1,0 +1,7 @@
+{
+    "mandrill-key": "",
+    "pin": 29,
+    "alertValue": 0,
+    "maxTimeOut": 30000,
+    "pollTime": 3000
+}
