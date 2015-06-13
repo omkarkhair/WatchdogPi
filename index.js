@@ -12,6 +12,7 @@ var checkState = config.get('alertValue'); // The state for you which you need a
 var maxTimeout = config.get('maxTimeOut'); // maximum time for which the state can remain locked in milliseconds.
 var pollTime = config.get('pollTime'); // How often should we check the state, in milliseconds.
 
+
 // Mandrill alert message
 var message = {
     "html": "<p>Bow wow! Watchdog found the door open.</p>",
