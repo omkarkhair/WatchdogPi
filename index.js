@@ -17,15 +17,15 @@ var message = {
     "html": "<p>Bow wow! Watchdog found the door open.</p>",
     "text": "Bow wow! Watchdog found the door open.",
     "subject": "Watchdog Pi Alert!",
-    "from_email": "username@gmail.com",
+    "from_email": "omkarkhair@gmail.com",
     "from_name": "Watchdog Pi",
     "to": [{
-            "email": "guardian@example.com",
+            "email": "omkar.khair@zevenseas.com",
             "name": "Guardian",
             "type": "to"
         }],
     "headers": {
-        "Reply-To": "username@gmail.com"
+        "Reply-To": "omkarkhair@gmail.com"
     },
     "important": false,
     "track_opens": null,
@@ -36,7 +36,6 @@ var message = {
     "url_strip_qs": null,
     "preserve_recipients": null,
     "view_content_link": null,
-    "bcc_address": "message.bcc_address@example.com",
     "tracking_domain": null,
     "signing_domain": null,
     "return_path_domain": null,
@@ -83,6 +82,7 @@ var Status = {
                     // Trigger notification
                     this.alertSent = true;
                     console.log("ALERT!!!");
+                    sendAlert();
                 }
             }
             else if (this.alertSent && this.status != checkState){
