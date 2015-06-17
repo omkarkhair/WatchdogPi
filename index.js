@@ -9,7 +9,7 @@ var mandrill_key = "GaBvOYll9O86XNat1R1vNA";
 var mandrill_client = new mandrill.Mandrill(mandrill_key);
 
 // Values we plan to move to config in coming versions
-var pin = 29; // Set a GPIO Pin
+var pin = 11; // Set a GPIO Pin
 var checkState = 0; // The state for you which you need a notifications. You can either be notified if the pin is open for too long, or closed.
 var maxTimeout = 30000; // maximum time for which the state can remain locked in milliseconds.
 var pollTime = 3000; // How often should we check the state, in milliseconds.
@@ -109,7 +109,7 @@ var Status = {
 
 gpio.close(pin, function(){
 
-	gpio.open(pin, "input pullup", function (err) {
+	gpio.open(pin, "input", function (err) {
     
     		if (err)
         		throw (err);
