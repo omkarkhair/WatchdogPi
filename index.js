@@ -1,16 +1,18 @@
 var gpio = require("pi-gpio");
-var mandrill = require('mandrill-api/mandrill');
+var mandrill = require('mandrill-api');
 var config = require('config');
 
+console.log(config);
+
 // Setup mandrill
-var mandrill_key = config.get('mandrill-key');
+var mandrill_key = "GaBvOYll9O86XNat1R1vNA";
 var mandrill_client = new mandrill.Mandrill(mandrill_key);
 
 // Values we plan to move to config in coming versions
-var pin = config.get('pin'); // Set a GPIO Pin
-var checkState = config.get('alertValue'); // The state for you which you need a notifications. You can either be notified if the pin is open for too long, or closed.
-var maxTimeout = config.get('maxTimeOut'); // maximum time for which the state can remain locked in milliseconds.
-var pollTime = config.get('pollTime'); // How often should we check the state, in milliseconds.
+var pin = 29; // Set a GPIO Pin
+var checkState = 0; // The state for you which you need a notifications. You can either be notified if the pin is open for too long, or closed.
+var maxTimeout = 30000; // maximum time for which the state can remain locked in milliseconds.
+var pollTime = 3000; // How often should we check the state, in milliseconds.
 
 
 // Mandrill alert message
@@ -18,15 +20,15 @@ var message = {
     "html": "<p>Bow wow! Watchdog found the door open.</p>",
     "text": "Bow wow! Watchdog found the door open.",
     "subject": "Watchdog Pi Alert!",
-    "from_email": "omkarkhair@gmail.com",
+    "from_email": "watchdog@example.com",
     "from_name": "Watchdog Pi",
     "to": [{
-            "email": "omkar.khair@zevenseas.com",
+            "email": "sample@mail.com",
             "name": "Guardian",
             "type": "to"
         }],
     "headers": {
-        "Reply-To": "omkarkhair@gmail.com"
+        "Reply-To": "watchdog@example.com"
     },
     "important": false,
     "track_opens": null,
@@ -46,13 +48,13 @@ var message = {
 };
 var async = false;
 var ip_pool = "Main Pool";
-var send_at = "example send_at";
+var send_at = new Date();
     
 var timer = null;
 
 // Alert routine
 function sendAlert() {
-    mandrill_client.messages.send({"message": message, "async": async, "ip_pool": ip_pool, "send_at": send_at}, function(result) {
+    mandrill_client.messages.send({"message": message, "async": async, "ip_pool": ip_pool}, function(result) {
         console.log(result);
         
     }, function(e) {
