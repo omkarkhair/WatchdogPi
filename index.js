@@ -5,30 +5,35 @@ var config = require('config');
 console.log(config);
 
 // Setup mandrill
-var mandrill_key = "GaBvOYll9O86XNat1R1vNA";
+var mandrill_key = config.get('mandrill-key');
 var mandrill_client = new mandrill.Mandrill(mandrill_key);
 
 // Values we plan to move to config in coming versions
-var pin = 11; // Set a GPIO Pin
-var checkState = 0; // The state for you which you need a notifications. You can either be notified if the pin is open for too long, or closed.
-var maxTimeout = 30000; // maximum time for which the state can remain locked in milliseconds.
-var pollTime = 3000; // How often should we check the state, in milliseconds.
+var pin = config.get('pin'); // Set a GPIO Pin
+var checkState = config.get('alertValue'); // The state for you which you need a notifications. You can either be notified if the pin is open for too long, or closed.
+var maxTimeout = config.get('maxTimeOut'); // maximum time for which the state can remain locked in milliseconds.
+var pollTime = config.get('pollTime'); // How often should we check the state, in milliseconds.
 
+var fromEmail = config.get('emailFrom');
+var toEmail = config.get('emailTo');
+
+var emailText = config.get('emailText');
+var emailSubject = config.get('emailSubject');
 
 // Mandrill alert message
 var message = {
-    "html": "<p>Bow wow! Watchdog found the door open.</p>",
-    "text": "Bow wow! Watchdog found the door open.",
-    "subject": "Watchdog Pi Alert!",
-    "from_email": "watchdog@example.com",
+    "html": "<p>"+emailText+"</p>",
+    "text": emailText,
+    "subject": emailSubject,
+    "from_email": fromEmail,
     "from_name": "Watchdog Pi",
     "to": [{
-            "email": "sample@mail.com",
+            "email": toEmail,
             "name": "Guardian",
             "type": "to"
         }],
     "headers": {
-        "Reply-To": "watchdog@example.com"
+        "Reply-To": fromEmail
     },
     "important": false,
     "track_opens": null,
