@@ -5,7 +5,7 @@ var config = require('config');
 console.log(config);
 
 // Setup mandrill
-var mandrill_key = "GaBvOYll9O86XNat1R1vNA";
+var mandrill_key = "xxxxxxxxxxxxxxxxxxxxxxx";
 var mandrill_client = new mandrill.Mandrill(mandrill_key);
 
 // Values we plan to move to config in coming versions
