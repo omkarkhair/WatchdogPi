@@ -1,6 +1,7 @@
 var gpio = require("pi-gpio");
 var mandrill = require('mandrill-api');
 var config = require('config');
+var http = require("http");
 
 console.log(config);
 
@@ -126,3 +127,9 @@ gpio.close(pin, function(){
 	});
 
 });
+
+
+http.createServer(function (req, res) {
+	res.writeHead(200, { "Content-Type": "text/html" });
+	res.end("Watchdog Pi running\nDoor is " + ( (Status.status == checkState) ? "Open" : "Closed"  ));
+}).listen(8080);
