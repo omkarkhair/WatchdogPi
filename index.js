@@ -1,14 +1,18 @@
 var gpio = require("pi-gpio");
 var mandrill = require('mandrill-api');
 var config = require('config');
+
 var http = require("http");
 
-console.log(config);
+//console.log(config);
 
+// debug server
+var port = 1337;
+var poll_count = 0;
 // Setup mandrill
 var mandrill_key = config.get('mandrill-key');
-var mandrill_client = new mandrill.Mandrill(mandrill_key);
 
+var mandrill_client = new mandrill.Mandrill(mandrill_key);
 // Values we plan to move to config in coming versions
 var pin = config.get('pin'); // Set a GPIO Pin
 var checkState = config.get('alertValue'); // The state for you which you need a notifications. You can either be notified if the pin is open for too long, or closed.
@@ -75,6 +79,7 @@ var Status = {
     updated : new Date(),
     alertSent: false,
     update : function () {
+	poll_count++;
         gpio.read(pin, function(err, value){
             
             if (err)
@@ -113,12 +118,17 @@ var Status = {
 
 // Open the pin as INPUT and PULL-UP
 
-gpio.close(pin, function(){
-
+function initPin () {
+gpio.close(pin, function(err){
+	//if (err) console.log(err);
+        //console.log("Opening PIN");
 	gpio.open(pin, "input", function (err) {
-    
-    		if (err)
-        		throw (err);
+    		
+    		if (err) {
+			setTimeout(initPin, 5000);
+			return;
+		}
+        		//throw (err);
     
 	    	console.log("Pin direction set. Starting polling at:", pollTime);
     		// Pin set as input -- start polling
@@ -127,9 +137,12 @@ gpio.close(pin, function(){
 	});
 
 });
-
+}
 
 http.createServer(function (req, res) {
 	res.writeHead(200, { "Content-Type": "text/html" });
-	res.end("Watchdog Pi running\nDoor is " + ( (Status.status == checkState) ? "Open" : "Closed"  ));
-}).listen(8080);
+	res.end("Watchdog Pi running: Door is " + Status.status + ". Poll count:" + poll_count.toString());
+	//res.end("Test");
+}).listen(port);
+
+initPin();
