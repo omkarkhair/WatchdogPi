@@ -90,26 +90,26 @@ var Status = {
             
             console.log("Polling value:", value);
             // check if state is open
-            if ( this.status == checkState && value == checkState && !this.alertSent ) {
+            if ( Status.status == checkState && value == checkState && !Status.alertSent ) {
                 // check if this has been for too long.
-                if ( ( (new Date()) - this.updated ) > maxTimeout ) {
+                if ( ( (new Date()) - Status.updated ) > maxTimeout ) {
                     // Trigger notification
-                    this.alertSent = true;
+                    Status.alertSent = true;
                     console.log("ALERT!!!");
                     sendAlert();
                 }
             }
             else if (this.alertSent && this.status != checkState){
                 console.log("Reseting alert");
-                this.alertSent = false;
+                Status.alertSent = false;
             }
 
             // check if pin state is changing
-            if ( this.status != value ) {
-                this.updated = new Date();
+            if ( Status.status != value ) {
+                Status.updated = new Date();
             }
             // Set the state
-            this.status = value;
+            Status.status = value;
 
             
         });
@@ -141,7 +141,7 @@ gpio.close(pin, function(err){
 
 http.createServer(function (req, res) {
 	res.writeHead(200, { "Content-Type": "text/html" });
-	res.end("Watchdog Pi running: Door is " + Status.status + ". Poll count:" + poll_count.toString());
+	res.end("Watchdog Pi running: Door is " + ((Status.status == checkState) ? "Open" : "Closed") + ". Poll count:" + poll_count.toString());
 	//res.end("Test");
 }).listen(port);
 
